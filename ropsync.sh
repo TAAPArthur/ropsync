@@ -7,7 +7,8 @@ HOST_FILE=$ROPSYNC_CONFIG_DIR/hosts
 FILES=$ROPSYNC_CONFIG_DIR/include
 EXCLUDE_PATTERNS=$ROPSYNC_CONFIG_DIR/exclude
 
-mkdir -p "$ROPSYNC_CONFIG_DIR"
+[ -d "$ROPSYNC_CONFIG_DIR" ] || mkdir -p "$ROPSYNC_CONFIG_DIR"
+[ -d "$ROPSYNC_DATA_DIR" ]   || mkdir -p "$ROPSYNC_DATA_DIR"
 
 getAllFiles() {
     while read -r file; do
