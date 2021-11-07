@@ -23,6 +23,11 @@ getDeletedOrNewFiles() {
     fi
 }
 
+die() {
+    echo "$@"
+    exit 2
+}
+
 HOSTNAME=$(hostname)
 RSYNC_EXTRA_FLAGS=${RSYNC_EXTRA_FLAGS:--C}
 
@@ -48,8 +53,14 @@ while read -r user_at_host; do
                 touch "$local_file"
             fi
         else
-            [ -r "$file" ]
-            [ -w "$file" ]
+            [ -r "$local_file" ] || die "File '$file' is not readable"
+            [ -w "$local_file" ] || die "File '$file' is not writable"
+            # if path ends in '/'
+            if [ "${local_file%/}/" != "$local_file/" ]; then
+                [ -d "$local_file" ] || die "File '$file' ends with '/' but not a directory"
+            else
+                [ -d "$local_file" ] && die "File '$file' doesn't end with '/' but is directory"
+            fi
         fi
 
         # Receive all files present on the remote (including deletion); New files are excluded
