@@ -30,7 +30,7 @@ while read -r user_at_host; do
         continue
     fi
 
-    if [ "/${user_at_host#/}" != "$user_at_host" ] && [ "${user_at_host%:}:" != "$user_at_host:" ] ; then
+    if [ "/${user_at_host#/}" != "$user_at_host" ] ; then
         user_at_host="$user_at_host:"
     fi
 
