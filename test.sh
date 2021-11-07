@@ -10,6 +10,7 @@ export IGNORED_FILE=$TEST_HOME/.test
 export SYNCED_DIR=$TEST_HOME/TestA/
 export SYNCED_DIR2=$TEST_HOME/TestD/
 export SYNCED_FILE=$TEST_HOME/test_file
+export RSYNC_EXTRA_FLAGS=-i
 
 for f in ${1:-Tests/*.sh}; do
     rm -fr "${TEST_HOME:?}"/*

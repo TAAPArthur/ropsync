@@ -24,6 +24,7 @@ getDeletedOrNewFiles() {
 }
 
 HOSTNAME=$(hostname)
+RSYNC_EXTRA_FLAGS=${RSYNC_EXTRA_FLAGS:--C}
 
 while read -r user_at_host; do
     if [ -z "$user_at_host" ] || [ "${user_at_host#*@}" = "$HOSTNAME" ]; then
@@ -52,9 +53,9 @@ while read -r user_at_host; do
         fi
 
         # Receive all files present on the remote (including deletion); New files are excluded
-        (cat "$EXCLUDE_PATTERNS"; getDeletedOrNewFiles "$local_file") | sed "s\\^$local_file\\\\"  | rsync -aut --mkpath --delete --exclude-from - "$user_at_host$local_file" "$file" || true
+        (cat "$EXCLUDE_PATTERNS"; getDeletedOrNewFiles "$local_file") | sed "s\\^$local_file\\\\"  | rsync -aut "$RSYNC_EXTRA_FLAGS" --mkpath --delete --exclude-from - "$user_at_host$local_file" "$file" || true
         # Send all files present to the remote (including deletion);
-        sed "s\\^$local_file\\\\" "$EXCLUDE_PATTERNS" | rsync -aut --mkpath --delete --exclude-from -  "$local_file" "$user_at_host$file"
+        sed "s\\^$local_file\\\\" "$EXCLUDE_PATTERNS" | rsync -aut "$RSYNC_EXTRA_FLAGS" --mkpath --delete --exclude-from -  "$local_file" "$user_at_host$file"
     done < "$FILES"
 done < "$HOST_FILE"
 getAllFiles | sort > "$KNOWN_FILES"
