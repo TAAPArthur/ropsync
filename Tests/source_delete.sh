@@ -11,12 +11,12 @@ for i in 0 1 0; do
 
     while read -r ABS_PATH; do
         find "$ABS_PATH" | grep -q "$(basename "$FILE")"
-    done < "$ROPSYNC_DATA_DIR/hosts"
+    done < "$ROPSYNC_CONFIG_DIR/hosts"
 
     if [ "$i" -eq 1 ]; then
         rm "$FILE"
     else
-        read -r ABS_PATH < "$ROPSYNC_DATA_DIR/hosts"
+        read -r ABS_PATH < "$ROPSYNC_CONFIG_DIR/hosts"
         find "$ABS_PATH" -name "$(basename "$FILE")" -type f -exec rm {} +
     fi
 
@@ -25,5 +25,5 @@ for i in 0 1 0; do
     while read -r ABS_PATH; do
         find "$ABS_PATH" | grep "$(basename "$FILE")" || continue
         exit 1
-    done < "$ROPSYNC_DATA_DIR/hosts"
+    done < "$ROPSYNC_CONFIG_DIR/hosts"
 done

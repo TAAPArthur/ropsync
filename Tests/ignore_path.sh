@@ -7,4 +7,4 @@ touch "$IGNORED_FILE"
 
 while read -r ABS_PATH; do
     find "$ABS_PATH" | grep -q -v -e "$IGNORED_DIR" -e "$IGNORED_FILE"
-done < "$ROPSYNC_DATA_DIR/hosts"
+done < "$ROPSYNC_CONFIG_DIR/hosts"

@@ -3,8 +3,8 @@
 export TEST_HOME=/tmp/.robsync
 mkdir -p "$TEST_HOME"
 
-export ROPSYNC_CONFIG_DIR=$TEST_HOME/sample
-export ROPSYNC_DATA_DIR=$TEST_HOME/sample
+export ROPSYNC_CONFIG_DIR=$TEST_HOME/config
+export ROPSYNC_DATA_DIR=$TEST_HOME/data
 export IGNORED_DIR=$TEST_HOME/.git/
 export IGNORED_FILE=$TEST_HOME/.test
 export SYNCED_DIR=$TEST_HOME/TestA/
@@ -16,6 +16,7 @@ for f in ${1:-Tests/*.sh}; do
     mkdir -p "$ROPSYNC_CONFIG_DIR" "$ROPSYNC_DATA_DIR"
     cat - <<EOF >"$ROPSYNC_CONFIG_DIR/hosts"
 $TEST_HOME/TestB
+$TEST_HOME/TestC
 EOF
     cat - <<EOF >"$ROPSYNC_CONFIG_DIR/include"
 $SYNCED_FILE
@@ -26,8 +27,6 @@ EOF
 .test
 EOF
     rm -f "$ROPSYNC_DATA_DIR/known_files"
-    if [ -r "$f" ]; then
-        echo "Running $f"
-        sh "$f"
-    fi
+    echo "Running $f"
+    "$f"
 done

@@ -12,11 +12,11 @@ verify () {
     while read -r ABS_PATH; do
         find "$ABS_PATH" -name "$(basename "$FILE")" | {
             read -r REMOTE_FILE
-            read -r VALUE<"$REMOTE_FILE"
+            read -r VALUE < "$REMOTE_FILE"
             [ "$1" = "$VALUE" ]
-            echo "$2"  > "$REMOTE_FILE"
+            echo "$2" > "$REMOTE_FILE"
         }
-    done < "$ROPSYNC_DATA_DIR/hosts"
+    done < "$ROPSYNC_CONFIG_DIR/hosts"
 }
 
 echo "$TARGET_VALUE"  > "$FILE"
@@ -24,6 +24,7 @@ echo "$TARGET_VALUE"  > "$FILE"
 
 verify "$TARGET_VALUE" "$TARGET_VALUE2"
 
+sleep 1
 ./ropsync.sh
 
 verify "$TARGET_VALUE2"

@@ -9,4 +9,3 @@ done < "$ROPSYNC_DATA_DIR/known_files"
 while read -r F; do
     [ -e "$F" ]
 done < "$ROPSYNC_CONFIG_DIR/include"
-echo "done"
