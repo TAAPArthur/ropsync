@@ -13,7 +13,7 @@ EXCLUDE_PATTERNS=$ROPSYNC_CONFIG_DIR/exclude
 getAllFiles() {
     while read -r file; do
         [ "${file#\~}" = "$file" ] || file=$HOME/${file#\~}
-        find "$file" 2>/dev/null
+        [ -e "$file" ] && find "$file" 2>/dev/null
     done < "$FILES"
 }
 getDeletedOrNewFiles() {
